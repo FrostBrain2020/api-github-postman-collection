@@ -1,0 +1,130 @@
+{
+	"info": {
+		"_postman_id": "ca688fa6-ea9d-47ef-99f7-182726ec3f51",
+		"name": "API.github",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34896972"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "/users/{username}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(200);\r",
+									"});\r",
+									"\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Data types in the response are correct\", () => {\r",
+									"  pm.expect(response).to.be.an(\"object\");\r",
+									"  pm.expect(response.login).to.be.a(\"string\");\r",
+									"  pm.expect(response.id).to.be.an(\"number\");\r",
+									"  pm.expect(response.node_id).to.be.a(\"string\"); \r",
+									"  pm.expect(response.avatar_url).to.be.a(\"string\");\r",
+									"  pm.expect(response.gravatar_id).to.be.a(\"string\");\r",
+									"  pm.expect(response.url).to.be.a(\"string\");\r",
+									"  pm.expect(response.html_url).to.be.a(\"string\");\r",
+									"  pm.expect(response.followers_url).to.be.a(\"string\");\r",
+									"  pm.expect(response.following_url).to.be.a(\"string\");\r",
+									"  pm.expect(response.gists_url).to.be.a(\"string\");\r",
+									"  pm.expect(response.starred_url).to.be.a(\"string\");\r",
+									"  pm.expect(response.subscriptions_url).to.be.a(\"string\");\r",
+									"  pm.expect(response.organizations_url).to.be.a(\"string\");\r",
+									"  pm.expect(response.repos_url).to.be.a(\"string\");\r",
+									"  pm.expect(response.events_url).to.be.a(\"string\");\r",
+									"  pm.expect(response.received_events_url).to.be.a(\"string\");\r",
+									"  pm.expect(response.type).to.be.a(\"string\");\r",
+									"  pm.expect(response.site_admin).to.be.a(\"boolean\");\r",
+									"  pm.expect(response.name).to.be.a(\"string\");\r",
+									"  pm.expect(response.company).to.be.a(\"string\");\r",
+									"  pm.expect(response.blog).to.be.a(\"string\");\r",
+									"  pm.expect(response.location).to.be.a(\"string\");\r",
+									"  pm.expect(response.email===\"string\" || response.email=== null).to.be.true;\r",
+									"  pm.expect(response.hireable===\"string\" || response.hireable=== null).to.be.true;\r",
+									"  pm.expect(response.bio===\"string\" || response.bio=== null).to.be.true;\r",
+									"  pm.expect(response.twitter_username===\"string\" || response.twitter_username=== null).to.be.true;\r",
+									"  pm.expect(response.public_repos).to.be.a(\"number\");\r",
+									"  pm.expect(response.public_gists).to.be.a(\"number\");\r",
+									"  pm.expect(response.following).to.be.a(\"number\");\r",
+									"  pm.expect(response.created_at).to.be.a(\"string\");\r",
+									"  pm.expect(response.updated_at).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Dates' format in the response is correct\", () => {\r",
+									"    const regex = /\\b[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z\\b/;\r",
+									"    pm.expect(response.created_at).to.match(regex);\r",
+									"    pm.expect(response.updated_at).to.match(regex);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Data values in the response are correct\", () => {\r",
+									"    const apiUrl = pm.environment.get(\"base_url\") + \"/users/\" + response.login;\r",
+									"    pm.expect(response.login).to.be.equal(pm.environment.get(\"username\"));\r",
+									"    pm.expect(response.id).to.be.greaterThan(0);\r",
+									"    pm.expect(response.avatar_url).to.be.contain(\"https://avatars.githubusercontent.com\");\r",
+									"    pm.expect(response.url).to.be.contain(apiUrl);\r",
+									"    pm.expect(response.html_url).to.be.equal(\"https://github.com/\"+response.login);\r",
+									"    pm.expect(response.followers_url).to.be.contain(apiUrl);\r",
+									"    pm.expect(response.following_url).to.be.contain(apiUrl + \"/following{/other_user}\");\r",
+									"    pm.expect(response.gists_url).to.be.contain(apiUrl + \"/gists{/gist_id}\");\r",
+									"    pm.expect(response.starred_url).to.be.contain(apiUrl + \"/starred{/owner}{/repo\");\r",
+									"    pm.expect(response.subscriptions_url).to.be.contain(apiUrl + \"/subscriptions\");\r",
+									"    pm.expect(response.organizations_url).to.be.contain(apiUrl + \"/orgs\");\r",
+									"    pm.expect(response.repos_url).to.be.contain(apiUrl + \"/repos\");\r",
+									"    pm.expect(response.events_url).to.be.contain(apiUrl + \"/events{/privacy}\");\r",
+									"    pm.expect(response.received_events_url).to.be.contain(apiUrl + \"/received_events\");\r",
+									"    pm.expect(response.type).to.be.equal(\"User\")\r",
+									"    pm.expect(response.site_admin).to.be.false;\r",
+									"    pm.expect(response.name).to.be.exist;\r",
+									"    pm.expect(response.company).to.be.equal(\"@github\");\r",
+									"    pm.expect(response.blog).to.be.exist;\r",
+									"    pm.expect(response.location).to.be.exist;\r",
+									"    pm.expect(response.email).to.be.null;\r",
+									"    pm.expect(response.hireable).to.be.null;\r",
+									"    pm.expect(response.bio).to.be.null;\r",
+									"    pm.expect(response.twitter_username).to.be.null;\r",
+									"    pm.expect(response.public_repos).to.be.greaterThan(0);\r",
+									"    pm.expect(response.public_gists).to.be.greaterThan(0);\r",
+									"    pm.expect(response.followers).to.be.greaterThan(0);\r",
+									"    pm.expect(response.following).to.be.greaterThan(0);\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"name\", response.name);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.github+json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/{{username}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"{{username}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Testing REST API to get public and private information about authenticated users."
+		}
+	]
+}
